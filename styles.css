@@ -1,0 +1,972 @@
+/* ============================================================================
+   Developer card — stylesheet
+   ============================================================================
+
+   A static page cannot consume the shared component library, so the first part
+   of this file is a verbatim transcription of the DESIGN_MANIFEST.md rules the
+   page uses (tokens, fonts, page shell, header, footer, buttons, cards, badges,
+   section titles). Section numbers in the comments refer to the manifest. The
+   page-local layout classes (`vc-*`) follow at the end.
+   ============================================================================ */
+
+/* === § 3.1 Font faces — self-hosted, split by unicode-range ================ */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/jetbrains-mono-latin.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/jetbrains-mono-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: 'Syne';
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/syne-latin.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* === § 1 Design tokens ===================================================== */
+:root {
+  --hm-bg: #080c10;
+  --hm-surface: #0d1117;
+  --hm-border: #1c2333;
+  --hm-accent: #00d4ff;
+  --hm-text: #e6edf3;
+  --hm-muted: #8b949e;
+
+  --hm-control-height: 36px;
+
+  --hm-ok: #10b981;
+  --hm-error: #ef4444;
+  --hm-active: #3b82f6;
+  --hm-paused: #6b7280;
+  --hm-warning: #f59e0b;
+  --hm-purple: #7c3aed;
+  --hm-purple-l: #a78bfa;
+
+  font-family: 'JetBrains Mono', monospace;
+  color-scheme: dark;
+}
+
+/* === § 5 Body container ==================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--hm-bg);
+  color: var(--hm-text);
+  border: 8px solid #000000; /* viewport bezel — the one documented non-token hex (§ 1.4) */
+  overflow-x: hidden;
+  font-size: 13px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--hm-bg);
+  color: var(--hm-text);
+}
+
+a {
+  color: var(--hm-accent);
+}
+
+/* === § 2 Layout ============================================================ */
+.hm-page {
+  min-height: 100vh;
+  background: var(--hm-bg);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.hm-grid-bg {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hm-canvas {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  padding: 32px 40px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  scroll-margin-top: 16px;
+}
+
+/* === § 4 Header ============================================================ */
+.hm-header {
+  position: relative;
+  z-index: 10;
+  padding: 32px 40px 20px;
+  border-bottom: 1px solid var(--hm-border);
+  background: linear-gradient(180deg, rgba(0, 212, 255, 0.04) 0%, transparent 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.hm-header__left {
+  display: flex;
+  align-items: center;
+}
+
+.hm-header__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--hm-text);
+  text-decoration: none;
+}
+
+.hm-header__mark {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.hm-header__nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hm-header__nav-divider {
+  width: 1px;
+  height: 18px;
+  background: var(--hm-border);
+  margin: 0 4px;
+}
+
+.hm-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--hm-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.hm-nav-link:hover {
+  background: rgba(0, 212, 255, 0.08);
+  color: var(--hm-accent);
+}
+
+.hm-nav-link--active {
+  background: rgba(0, 212, 255, 0.08);
+  border-color: rgba(0, 212, 255, 0.3);
+  color: var(--hm-accent);
+}
+
+.hm-nav-link--active:hover {
+  background: rgba(0, 212, 255, 0.18);
+}
+
+/* === § 6 Footer ============================================================ */
+.hm-footer {
+  position: relative;
+  padding: 14px 40px;
+  border-top: 1px solid var(--hm-border);
+  background: linear-gradient(0deg, rgba(0, 212, 255, 0.04) 0%, transparent 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--hm-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.hm-footer__left,
+.hm-footer__center,
+.hm-footer__right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hm-footer__sep {
+  opacity: 0.4;
+}
+
+.hm-footer__meta {
+  color: var(--hm-muted);
+}
+
+.hm-footer__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--hm-border);
+}
+
+.hm-footer__pill--env {
+  background: rgba(0, 212, 255, 0.08);
+  border-color: rgba(0, 212, 255, 0.3);
+  color: var(--hm-accent);
+}
+
+/* === § 7 Buttons =========================================================== */
+.hm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 14px;
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.hm-btn--primary {
+  background: var(--hm-accent);
+  color: #0a0e17;
+  border: none;
+  min-width: 140px;
+}
+
+.hm-btn--primary:hover {
+  opacity: 0.9;
+}
+
+.hm-btn--cyan {
+  background: rgba(0, 212, 255, 0.1);
+  border-color: rgba(0, 212, 255, 0.3);
+  color: var(--hm-accent);
+}
+
+.hm-btn--cyan:hover {
+  background: rgba(0, 212, 255, 0.2);
+}
+
+.hm-btn--neutral {
+  background: transparent;
+  border-color: var(--hm-border);
+  color: var(--hm-muted);
+}
+
+.hm-btn--neutral:hover {
+  background: rgba(0, 212, 255, 0.05);
+}
+
+.hm-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* === § 8 Cards ============================================================= */
+.hm-card {
+  background: var(--hm-surface);
+  border: 1px solid var(--hm-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.hm-card-accent {
+  height: 2px;
+}
+
+.hm-card-accent--ok {
+  background: linear-gradient(90deg, #10b981, #00d4ff);
+}
+
+.hm-card-accent--total {
+  background: linear-gradient(90deg, #00d4ff, #7c3aed);
+}
+
+.hm-card-accent--active {
+  background: linear-gradient(90deg, #3b82f6, #00d4ff);
+}
+
+.hm-card-accent--uptime {
+  background: linear-gradient(90deg, #7c3aed, #00d4ff);
+}
+
+/* === § 12 Badges & status dots ============================================ */
+.hm-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.hm-badge--ok {
+  background: rgba(16, 185, 129, 0.08); /* --hm-ok @ 8% */
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: var(--hm-ok);
+}
+
+.hm-badge--info {
+  background: rgba(0, 212, 255, 0.08); /* --hm-accent @ 8% */
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  color: var(--hm-accent);
+}
+
+.hm-badge--neutral {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--hm-border);
+  color: var(--hm-muted);
+}
+
+.hm-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.hm-dot--ok {
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981; /* glow is reserved for status dots (§ 1.2) */
+  animation: hm-pulse 2s infinite;
+}
+
+.hm-dot--error {
+  background: #ef4444;
+  box-shadow: 0 0 8px #ef4444;
+  animation: hm-pulse 1.5s infinite;
+}
+
+.hm-dot--active {
+  background: var(--hm-active);
+}
+
+.hm-dot--paused {
+  background: var(--hm-paused);
+}
+
+/* === § 10 Forms ============================================================ */
+.hm-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hm-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hm-form-label {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--hm-muted);
+}
+
+.hm-form-label__required::after {
+  content: ' *';
+  color: var(--hm-error);
+}
+
+.hm-form-error {
+  margin: 0;
+  font-size: 11px;
+  color: var(--hm-error);
+}
+
+.hm-form-hint {
+  margin: 0;
+  font-size: 11px;
+  color: var(--hm-muted);
+}
+
+.hm-form-hint a {
+  color: var(--hm-muted);
+  text-decoration: underline;
+}
+
+.hm-form-hint a:hover {
+  color: var(--hm-accent);
+}
+
+.hm-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.hm-input,
+.hm-textarea {
+  width: 100%;
+  background: var(--hm-bg);
+  border: 1px solid var(--hm-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  color: var(--hm-text);
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.hm-input {
+  min-height: var(--hm-control-height);
+}
+
+.hm-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.hm-input:focus,
+.hm-textarea:focus {
+  border-color: var(--hm-accent);
+}
+
+.hm-input::placeholder,
+.hm-textarea::placeholder {
+  color: var(--hm-muted);
+}
+
+.hm-input:disabled,
+.hm-textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.hm-input--error,
+.hm-textarea--error {
+  border-color: var(--hm-error);
+}
+
+.hm-input:-webkit-autofill,
+.hm-input:-webkit-autofill:hover,
+.hm-input:-webkit-autofill:focus,
+.hm-input:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--hm-text);
+  -webkit-box-shadow: 0 0 0 1000px var(--hm-bg) inset;
+  box-shadow: 0 0 0 1000px var(--hm-bg) inset;
+  caret-color: var(--hm-text);
+  border: 1px solid var(--hm-border);
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+.hm-input:-webkit-autofill:focus {
+  border-color: var(--hm-accent);
+}
+
+/* === § 17 Loaders ========================================================== */
+.hm-spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: hm-spin 0.8s linear infinite;
+  box-sizing: border-box;
+}
+
+.hm-spinner[hidden] {
+  display: none;
+}
+
+/* === § 18 Section titles =================================================== */
+.hm-section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--hm-muted);
+}
+
+.hm-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--hm-border);
+}
+
+/* === § 19 Banners ========================================================== */
+.hm-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+
+.hm-banner[hidden] {
+  display: none;
+}
+
+.hm-banner--error {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+.hm-banner--ok {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #10b981;
+}
+
+/* === Appendix A / B / C ==================================================== */
+@keyframes hm-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes hm-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--hm-border);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--hm-muted);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--hm-border) transparent;
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: rgba(0, 212, 255, 0.3) !important;
+  color: var(--hm-text) !important;
+}
+
+/* ============================================================================
+   Page-local layout (`vc-*`)
+   ============================================================================ */
+
+/* A card page has a reading width; the manifest's data-dense layouts do not. */
+.hm-canvas {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Language switch: both languages are in the markup, one is shown. */
+html[data-lang='ru'] [lang='en'],
+html[data-lang='en'] [lang='ru'] {
+  display: none !important;
+}
+
+.vc-mark {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.vc-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  scroll-margin-top: 24px;
+}
+
+.vc-section__intro {
+  margin: 0;
+  max-width: 72ch;
+  color: var(--hm-muted);
+}
+
+/* § 3.2 rows only: 22 px page title, 15 px card title, 13 px body. */
+.vc-title {
+  margin: 0;
+  font-family: 'Syne', 'JetBrains Mono', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1.3;
+  color: var(--hm-text);
+  max-width: 30ch;
+}
+
+.vc-lead {
+  margin: 0;
+  max-width: 64ch;
+  color: var(--hm-text);
+}
+
+.vc-lead--muted {
+  color: var(--hm-muted);
+}
+
+.vc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.vc-hero__body {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 28px;
+  padding: 28px 28px 32px;
+}
+
+.vc-hero__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.vc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Recessed sub-card (§ 8.5: --hm-bg inside --hm-surface). */
+.vc-console {
+  background: var(--hm-bg);
+  border: 1px solid var(--hm-border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  align-self: start;
+}
+
+.vc-console__title {
+  font-family: 'Syne', 'JetBrains Mono', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--hm-muted);
+  margin-bottom: 12px;
+}
+
+.vc-console__prompt {
+  color: var(--hm-accent);
+}
+
+.vc-console__rows {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.vc-console__rows dt,
+.vc-console__rows dd {
+  margin: 0;
+  padding: 8px 0;
+  border-top: 1px solid var(--hm-border);
+}
+
+.vc-console__rows dt {
+  padding-right: 16px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--hm-muted);
+}
+
+.vc-console__rows dd {
+  color: var(--hm-text);
+}
+
+.vc-console__rows dt:first-of-type,
+.vc-console__rows dd:first-of-type {
+  border-top: 0;
+}
+
+.vc-grid {
+  display: grid;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.vc-grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.vc-grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.vc-grid--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.vc-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.vc-card__body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.vc-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.vc-card__kicker {
+  font-family: 'Syne', 'JetBrains Mono', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--hm-accent);
+}
+
+.vc-card__title {
+  margin: 0;
+  font-family: 'Syne', 'JetBrains Mono', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--hm-text);
+}
+
+.vc-card__text {
+  margin: 0;
+  color: var(--hm-muted);
+}
+
+.vc-card__list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--hm-muted);
+}
+
+.vc-card__list li::marker {
+  color: var(--hm-accent);
+}
+
+.vc-card__foot {
+  margin-top: auto;
+  padding-top: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.vc-contacts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.vc-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  background: var(--hm-bg);
+  border: 1px solid var(--hm-border);
+  border-radius: 10px;
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+
+.vc-contact:hover,
+.vc-contact:focus-visible {
+  border-color: rgba(0, 212, 255, 0.3);
+}
+
+.vc-contact__label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--hm-muted);
+}
+
+.vc-contact__value {
+  color: var(--hm-accent);
+  overflow-wrap: anywhere;
+}
+
+.vc-lang {
+  font: inherit;
+}
+
+.vc-footer-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.vc-footer-link:hover,
+.vc-footer-link:focus-visible {
+  color: var(--hm-accent);
+}
+
+/* === § 2.6 Responsive ====================================================== */
+@media (max-width: 1024px) {
+  .vc-grid--3,
+  .vc-grid--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .vc-hero__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hm-canvas {
+    padding: 16px 16px 40px;
+    gap: 16px;
+  }
+
+  .hm-header {
+    padding: 16px 16px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hm-header__nav {
+    gap: 4px;
+  }
+
+  .hm-header__nav-divider {
+    display: none;
+  }
+
+  .hm-nav-link {
+    min-height: 44px;
+    font-size: 12px;
+  }
+
+  .hm-footer {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  .vc-grid--2,
+  .vc-grid--3,
+  .vc-grid--4,
+  .vc-contacts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .vc-hero__body {
+    padding: 20px 16px 24px;
+  }
+
+  .vc-title {
+    max-width: none;
+  }
+
+  .hm-btn {
+    min-height: 48px;
+  }
+
+  .vc-actions .hm-btn {
+    flex: 1;
+  }
+}

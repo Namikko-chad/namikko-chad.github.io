@@ -1,42 +1,455 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MegaChat</title>
-<style>
-  :root { color-scheme: light dark; --fg: #1d1f24; --bg: #ffffff; --muted: #5d6270; --link: #2f6fde; }
-  @media (prefers-color-scheme: dark) { :root { --fg: #e6e8ee; --bg: #1c1f26; --muted: #9aa0ad; --link: #7aa7ff; } }
-  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 system-ui, sans-serif; }
-  main { max-width: 720px; margin: 0 auto; padding: 40px 16px; }
-  h1 { margin: 0 0 4px; } h2 { margin-top: 32px; }
-  p.sub { color: var(--muted); margin-top: 0; }
-  a { color: var(--link); }
-  footer { margin-top: 40px; color: var(--muted); font-size: 14px; }
-</style>
-</head>
-<body>
-<main>
-  <h1>MegaChat</h1>
-  <p class="sub">One client for messengers, mail and calendars.</p>
+<html lang="ru" data-lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Leonhard Schmidt — software engineer</title>
+    <meta
+      name="description"
+      content="Leonhard Schmidt (Namikko-chad): backend and full-stack engineer, architect of Tokenizer.Estate, author of BloodHeaven and self-hosted open-source projects in Go, Vue and Flutter."
+    />
+    <meta name="theme-color" content="#080c10" />
+    <link rel="canonical" href="https://namikko-chad.github.io/" />
 
-  <p>MegaChat is a desktop and Android app that brings several accounts together in one place:
-  VK Teams, Slack and Telegram chats, mail from Gmail and Mail.ru, and Google and Mail.ru calendars.
-  All mail of all accounts is shown as one inbox, and all calendars as one calendar.</p>
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content="Leonhard Schmidt — software engineer" />
+    <meta
+      property="og:description"
+      content="Go · TypeScript · Vue/Nuxt · Flutter. Platform architecture, distributed systems, self-hosted software."
+    />
+    <meta property="og:url" content="https://namikko-chad.github.io/" />
 
-  <p>MegaChat runs on your device and connects to each service directly. It has no servers of its own:
-  your messages, mail and events are not sent anywhere else.
-  See the <a href="privacy.html">privacy policy</a>.</p>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="preload" href="fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      // Language: saved choice → browser language → Russian.
+      (function () {
+        var lang = null;
+        try { lang = localStorage.getItem('lang'); } catch (e) {}
+        if (lang !== 'ru' && lang !== 'en') {
+          lang = /^ru|^uk|^be|^kk/i.test(navigator.language || '') ? 'ru' : 'en';
+        }
+        document.documentElement.setAttribute('data-lang', lang);
+        document.documentElement.setAttribute('lang', lang);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="hm-page">
+        <div class="hm-grid-bg" aria-hidden="true"></div>
 
-  <h2>По-русски</h2>
-  <p>MegaChat — приложение для компьютера и Android, которое собирает несколько аккаунтов в одном месте:
-  чаты VK Teams, Slack и Telegram, почту Gmail и Mail.ru, календари Google и Mail.ru.
-  Почта всех аккаунтов показывается одним ящиком, календари — одним календарём.</p>
-  <p>MegaChat работает на вашем устройстве и подключается к сервисам напрямую. Своих серверов у него нет:
-  ваши сообщения, письма и события никуда больше не передаются.
-  Подробнее — в <a href="privacy.html">политике конфиденциальности</a>.</p>
+        <header class="hm-header">
+          <div class="hm-header__left">
+            <a href="./" class="hm-header__logo" aria-label="Leonhard Schmidt">
+              <svg class="vc-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+                <rect x="2" y="2" width="28" height="28" rx="6" fill="#0d1117" stroke="#1c2333" stroke-width="1.5" />
+                <path d="M9 10 L15 16 L9 22" fill="none" stroke="#00d4ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                <line x1="17" y1="22" x2="23.5" y2="22" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" />
+              </svg>
+              Leonhard Schmidt
+            </a>
+          </div>
 
-  <footer>Contact: <a href="mailto:bloodheavendevelop@gmail.com">bloodheavendevelop@gmail.com</a></footer>
-</main>
-</body>
+          <nav class="hm-header__nav" aria-label="Sections">
+            <a class="hm-nav-link" href="#platforms"><span lang="ru">Платформы</span><span lang="en">Platforms</span></a>
+            <a class="hm-nav-link" href="#opensource">Open source</a>
+            <a class="hm-nav-link" href="#stack"><span lang="ru">Стек</span><span lang="en">Stack</span></a>
+            <a class="hm-nav-link" href="#contact"><span lang="ru">Контакты</span><span lang="en">Contact</span></a>
+            <span class="hm-header__nav-divider" aria-hidden="true"></span>
+            <button type="button" class="hm-nav-link hm-nav-link--active vc-lang" id="lang-toggle" aria-label="Switch language">
+              <span lang="ru">EN</span><span lang="en">RU</span>
+            </button>
+          </nav>
+        </header>
+
+        <main class="hm-canvas">
+          <!-- Hero -->
+          <section class="hm-card" aria-labelledby="hero-title">
+            <div class="hm-card-accent hm-card-accent--total"></div>
+            <div class="vc-hero__body">
+              <div class="vc-hero__copy">
+                <span class="hm-badge hm-badge--info">
+                  <span lang="ru">Архитектор · backend / full-stack</span>
+                  <span lang="en">Architect · backend / full-stack</span>
+                </span>
+                <h1 id="hero-title" class="vc-title">
+                  <span lang="ru">Проектирую платформы и довожу их до продакшена: от Go-сервисов до роутера.</span>
+                  <span lang="en">I design platforms and take them to production — from Go services down to the router.</span>
+                </h1>
+                <p class="vc-lead">
+                  <span lang="ru">
+                    Архитектор платформы токенизации недвижимости Tokenizer.Estate и автор BloodHeaven —
+                    платформы из полутора десятков сервисов, где ИИ-агенты пишут, тестируют и выкатывают код
+                    под ревью инженера. В свободное время делаю self-hosted софт, который работает без облака:
+                    иногда прямо на MikroTik.
+                  </span>
+                  <span lang="en">
+                    Architect of Tokenizer.Estate, a real-estate tokenization platform, and author of
+                    BloodHeaven — a platform of some fifteen services where AI agents write, test and deploy code
+                    under an engineer's review. In my own time I build self-hosted software that needs no cloud —
+                    sometimes running right on a MikroTik router.
+                  </span>
+                </p>
+                <ul class="vc-tags" aria-label="Stack">
+                  <li class="hm-badge hm-badge--info">Go</li>
+                  <li class="hm-badge hm-badge--info">TypeScript</li>
+                  <li class="hm-badge hm-badge--neutral">NestJS</li>
+                  <li class="hm-badge hm-badge--neutral">Vue 3 / Nuxt 4</li>
+                  <li class="hm-badge hm-badge--neutral">Flutter</li>
+                  <li class="hm-badge hm-badge--neutral">PostgreSQL</li>
+                  <li class="hm-badge hm-badge--neutral">RabbitMQ</li>
+                  <li class="hm-badge hm-badge--neutral">EVM / TRON</li>
+                </ul>
+                <div class="vc-actions">
+                  <a class="hm-btn hm-btn--cyan" href="https://github.com/Namikko-chad" rel="noopener">GitHub</a>
+                  <a class="hm-btn hm-btn--neutral" href="#contact">
+                    <span lang="ru">Связаться</span><span lang="en">Get in touch</span>
+                  </a>
+                </div>
+              </div>
+
+              <aside class="vc-console" aria-label="Summary">
+                <div class="vc-console__title"><span class="vc-console__prompt">$</span> whoami</div>
+                <dl class="vc-console__rows">
+                  <dt>handle</dt>
+                  <dd>Namikko-chad</dd>
+                  <dt>role</dt>
+                  <dd><span lang="ru">архитектор, backend / full-stack</span><span lang="en">architect, backend / full-stack</span></dd>
+                  <dt>backend</dt>
+                  <dd>Go (Gin, GORM), NestJS</dd>
+                  <dt>frontend</dt>
+                  <dd>Vue 3, Nuxt 4</dd>
+                  <dt>mobile</dt>
+                  <dd>Flutter — Android, TV, desktop</dd>
+                  <dt>infra</dt>
+                  <dd>Docker, Kubernetes, RouterOS, CI/CD</dd>
+                  <dt>web3</dt>
+                  <dd>EVM, TRON, ERC-20 / TRC-20</dd>
+                </dl>
+              </aside>
+            </div>
+          </section>
+
+          <!-- Platforms -->
+          <section id="platforms" class="vc-section" aria-labelledby="platforms-title">
+            <h2 id="platforms-title" class="hm-section-title">
+              <span lang="ru">Платформы</span><span lang="en">Platforms</span>
+            </h2>
+            <div class="vc-grid vc-grid--2">
+              <article class="hm-card vc-card">
+                <div class="hm-card-accent hm-card-accent--uptime"></div>
+                <div class="vc-card__body">
+                  <div class="vc-card__head">
+                    <span class="vc-card__kicker"><span lang="ru">Архитектор</span><span lang="en">Architect</span></span>
+                    <span class="hm-badge hm-badge--ok">production</span>
+                  </div>
+                  <h3 class="vc-card__title">Tokenizer.Estate</h3>
+                  <p class="vc-card__text">
+                    <span lang="ru">
+                      Платформа токенизации недвижимости (RWA): объекты выпускаются как on-chain токены долей,
+                      инвесторы покупают их и получают выплаты пропорционально владению.
+                    </span>
+                    <span lang="en">
+                      A real-estate tokenization (RWA) platform: properties are issued as on-chain share tokens,
+                      investors buy them and receive payouts in proportion to what they hold.
+                    </span>
+                  </p>
+                  <ul class="vc-card__list">
+                    <li><span lang="ru">админка, клиентский сайт оператора, white-label CRM и BI</span><span lang="en">admin panel, operator client site, white-label CRM and BI</span></li>
+                    <li><span lang="ru">выплаты держателям в нативной монете, USDT и USDC (Ethereum, Polygon)</span><span lang="en">payouts to holders in native coin, USDT and USDC (Ethereum, Polygon)</span></li>
+                    <li><span lang="ru">сервисы курсов валют, деплоя, мониторинга, рассылок</span><span lang="en">currency-rate, deployment, monitoring and messaging services</span></li>
+                    <li><span lang="ru">автотесты: 500+ маршрутов API покрыты сценариями</span><span lang="en">test automation: 500+ API routes covered by scenarios</span></li>
+                  </ul>
+                  <ul class="vc-tags vc-card__foot">
+                    <li class="hm-badge hm-badge--neutral">NestJS</li>
+                    <li class="hm-badge hm-badge--neutral">Go</li>
+                    <li class="hm-badge hm-badge--neutral">Vue 3 / Nuxt</li>
+                    <li class="hm-badge hm-badge--neutral">EVM · Polygon</li>
+                    <li class="hm-badge hm-badge--neutral">Playwright</li>
+                  </ul>
+                  <div class="vc-actions">
+                    <a class="hm-btn hm-btn--cyan" href="https://tokenizer.estate" rel="noopener">tokenizer.estate</a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="hm-card vc-card">
+                <div class="hm-card-accent hm-card-accent--total"></div>
+                <div class="vc-card__body">
+                  <div class="vc-card__head">
+                    <span class="vc-card__kicker"><span lang="ru">Автор</span><span lang="en">Author</span></span>
+                    <span class="hm-badge hm-badge--info"><span lang="ru">свой проект</span><span lang="en">own project</span></span>
+                  </div>
+                  <h3 class="vc-card__title">BloodHeaven</h3>
+                  <p class="vc-card__text">
+                    <span lang="ru">
+                      Студия, где идеи превращаются в работающие сервисы через автоматический конвейер: ИИ-агенты
+                      планируют, пишут, тестируют и деплоят, инженер ревьюит и решает, что уходит в прод.
+                      Под это — своя платформа из независимых Go-сервисов с общей дизайн-системой.
+                    </span>
+                    <span lang="en">
+                      A studio where ideas become running services through an automated pipeline: AI agents plan,
+                      build, test and deploy, an engineer reviews and decides what ships. Behind it is its own
+                      platform of independent Go services with one shared design system.
+                    </span>
+                  </p>
+                  <ul class="vc-card__list">
+                    <li><span lang="ru">auth-gateway: identity, API-ключи, RBAC</span><span lang="en">auth-gateway: identity, API keys, RBAC</span></li>
+                    <li><span lang="ru">health-monitor с агентами по регионам и статусом по консенсусу</span><span lang="en">health-monitor with regional agents and consensus-based status</span></li>
+                    <li><span lang="ru">deployer, test-platform (визуальные сценарии + Playwright-раннер)</span><span lang="en">deployer, test-platform (visual scenarios + Playwright runner)</span></li>
+                    <li><span lang="ru">продуктовая аналитика, time-series, real-time WebSocket-хаб, вебхуки</span><span lang="en">product analytics, time series, real-time WebSocket hub, webhooks</span></li>
+                    <li><span lang="ru">web3-кошелёк EVM/TRON и приём оплат по инвойсам</span><span lang="en">EVM/TRON wallet and invoice payments</span></li>
+                    <li><span lang="ru">аудит инфраструктуры и DMARC-отчётов почты</span><span lang="en">infrastructure audit and DMARC report analysis</span></li>
+                  </ul>
+                  <ul class="vc-tags vc-card__foot">
+                    <li class="hm-badge hm-badge--neutral">Go · Gin · GORM</li>
+                    <li class="hm-badge hm-badge--neutral">Nuxt 4</li>
+                    <li class="hm-badge hm-badge--neutral">PostgreSQL · Redis</li>
+                    <li class="hm-badge hm-badge--neutral">RabbitMQ · Protobuf</li>
+                    <li class="hm-badge hm-badge--neutral">AI agents</li>
+                  </ul>
+                  <div class="vc-actions">
+                    <a class="hm-btn hm-btn--cyan" href="https://bloodheaven.nexus" rel="noopener">bloodheaven.nexus</a>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- Open source -->
+          <section id="opensource" class="vc-section" aria-labelledby="oss-title">
+            <h2 id="oss-title" class="hm-section-title">Open source</h2>
+            <p class="vc-section__intro">
+              <span lang="ru">Self-hosted софт без облака и аккаунтов: один бинарник или маленький контейнер — хоть на ноутбуке, хоть на роутере.</span>
+              <span lang="en">Self-hosted software with no cloud and no accounts: one binary or a small container — on a laptop or on a router.</span>
+            </p>
+            <ul class="vc-grid vc-grid--2">
+              <li class="hm-card vc-card">
+                <div class="hm-card-accent hm-card-accent--ok"></div>
+                <div class="vc-card__body">
+                  <div class="vc-card__head">
+                    <h3 class="vc-card__title">CloudSync</h3>
+                    <span class="hm-badge hm-badge--neutral">GPL-3.0</span>
+                  </div>
+                  <p class="vc-card__text">
+                    <span lang="ru">
+                      Синхронизация файлов между Linux, Windows и Android без сервера. Данные шифруются на устройстве
+                      и раскладываются по облакам, которые у вас уже есть (Drive, Mega, S3, WebDAV…) с избыточностью
+                      Reed-Solomon k+m — потеря одного облака не страшна. Плюс менеджер паролей, SSH- и web3-ключей и 2FA.
+                    </span>
+                    <span lang="en">
+                      File sync between Linux, Windows and Android with no server. Data is encrypted on the device and
+                      spread over the clouds you already have (Drive, Mega, S3, WebDAV…) with Reed-Solomon k+m
+                      redundancy — losing a cloud loses nothing. Includes a vault for passwords, SSH and web3 keys and 2FA.
+                    </span>
+                  </p>
+                  <ul class="vc-tags vc-card__foot">
+                    <li class="hm-badge hm-badge--neutral">Go</li>
+                    <li class="hm-badge hm-badge--neutral">Flutter</li>
+                    <li class="hm-badge hm-badge--neutral">XChaCha20 · Argon2id</li>
+                    <li class="hm-badge hm-badge--neutral">FUSE / WinFsp</li>
+                  </ul>
+                  <div class="vc-actions">
+                    <a class="hm-btn hm-btn--cyan" href="https://github.com/Namikko-chad/cloud-storage" rel="noopener">GitHub</a>
+                  </div>
+                </div>
+              </li>
+
+              <li class="hm-card vc-card">
+                <div class="hm-card-accent hm-card-accent--active"></div>
+                <div class="vc-card__body">
+                  <div class="vc-card__head">
+                    <h3 class="vc-card__title">AmneziaWG for MikroTik</h3>
+                    <span class="hm-badge hm-badge--neutral">MIT</span>
+                  </div>
+                  <p class="vc-card__text">
+                    <span lang="ru">
+                      Полноценный клиент AmneziaWG (обфусцированный WireGuard) в контейнере RouterOS 7 с веб-интерфейсом.
+                      Вставляете ключ <code>vpn://</code> — и вся сеть, отдельные устройства или сайты идут через туннель;
+                      kill switch, исключения по странам, автоматический failover. ~10 МБ образ, ~8 МБ RAM.
+                    </span>
+                    <span lang="en">
+                      A full AmneziaWG (obfuscated WireGuard) client as a RouterOS 7 container with a web UI. Paste a
+                      <code>vpn://</code> key and route the whole LAN, chosen devices or chosen sites through the tunnel;
+                      kill switch, per-country exceptions, automatic failover. ~10 MB image, ~8 MB RAM.
+                    </span>
+                  </p>
+                  <ul class="vc-tags vc-card__foot">
+                    <li class="hm-badge hm-badge--neutral">Go</li>
+                    <li class="hm-badge hm-badge--neutral">RouterOS 7</li>
+                    <li class="hm-badge hm-badge--neutral">arm64 · arm/v7 · amd64</li>
+                  </ul>
+                  <div class="vc-actions">
+                    <a class="hm-btn hm-btn--cyan" href="https://github.com/Namikko-chad/amneziawg-mikrotik" rel="noopener">GitHub</a>
+                    <a class="hm-btn hm-btn--neutral" href="https://hub.docker.com/r/namikko/amneziawg-mikrotik" rel="noopener">Docker Hub</a>
+                  </div>
+                </div>
+              </li>
+
+              <li class="hm-card vc-card">
+                <div class="hm-card-accent hm-card-accent--uptime"></div>
+                <div class="vc-card__body">
+                  <div class="vc-card__head">
+                    <h3 class="vc-card__title">Plenka</h3>
+                    <span class="hm-badge hm-badge--neutral">open source</span>
+                  </div>
+                  <p class="vc-card__text">
+                    <span lang="ru">
+                      Домашний кинотеатр, который помещается на роутер. Один Go-бинарник: каталог TMDB, поиск по трекерам
+                      (собственный движок Cardigann-определений) и стриминг торрента прямо в браузер, телефон или ТВ-приставку.
+                    </span>
+                    <span lang="en">
+                      A home cinema that fits on a router. One Go binary: the TMDB catalog, tracker search (its own engine
+                      for Cardigann definitions) and torrent streaming straight to a browser, phone or TV box.
+                    </span>
+                  </p>
+                  <ul class="vc-tags vc-card__foot">
+                    <li class="hm-badge hm-badge--neutral">Go</li>
+                    <li class="hm-badge hm-badge--neutral">Vue 3</li>
+                    <li class="hm-badge hm-badge--neutral">Flutter · libmpv</li>
+                    <li class="hm-badge hm-badge--neutral">Android TV</li>
+                  </ul>
+                  <div class="vc-actions">
+                    <a class="hm-btn hm-btn--cyan" href="https://github.com/Namikko-chad/Plenka" rel="noopener">GitHub</a>
+                  </div>
+                </div>
+              </li>
+
+              <li class="hm-card vc-card">
+                <div class="hm-card-accent hm-card-accent--total"></div>
+                <div class="vc-card__body">
+                  <div class="vc-card__head">
+                    <h3 class="vc-card__title"><span lang="ru">Табло</span><span lang="en">Tablo</span></h3>
+                    <span class="hm-badge hm-badge--neutral">MIT</span>
+                  </div>
+                  <p class="vc-card__text">
+                    <span lang="ru">
+                      Self-hosted «Своя игра» для вечеринок, классов и пабных квизов. Игроки жмут кнопку с телефонов,
+                      ведущий судит, табло на ТВ или проекторе. Честная кнопка по Wi-Fi с компенсацией задержки,
+                      редактор пакетов вопросов с медиа. Образ ~13 МБ.
+                    </span>
+                    <span lang="en">
+                      A self-hosted Jeopardy-style quiz for parties, classrooms and pub quizzes. Players buzz from their
+                      phones, a host judges, the board is on a TV or projector. A buzzer that is fair on Wi-Fi with latency
+                      compensation, a question-pack editor with media. ~13 MB image.
+                    </span>
+                  </p>
+                  <ul class="vc-tags vc-card__foot">
+                    <li class="hm-badge hm-badge--neutral">Go · WebSocket</li>
+                    <li class="hm-badge hm-badge--neutral">Vue 3</li>
+                    <li class="hm-badge hm-badge--neutral">Flutter</li>
+                    <li class="hm-badge hm-badge--neutral">SQLite</li>
+                  </ul>
+                  <div class="vc-actions">
+                    <a class="hm-btn hm-btn--cyan" href="https://github.com/Namikko-chad/Tablo" rel="noopener">GitHub</a>
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+          </section>
+
+          <!-- Stack -->
+          <section id="stack" class="vc-section" aria-labelledby="stack-title">
+            <h2 id="stack-title" class="hm-section-title">
+              <span lang="ru">Чем занимаюсь</span><span lang="en">What I do</span>
+            </h2>
+            <ul class="vc-grid vc-grid--4">
+              <li class="hm-card vc-card">
+                <div class="vc-card__body">
+                  <div class="vc-card__kicker">01 · Backend</div>
+                  <p class="vc-card__text">
+                    <span lang="ru">Go и NestJS, микросервисы на PostgreSQL, Redis и RabbitMQ, контракты на Protobuf, WebSocket и gRPC.</span>
+                    <span lang="en">Go and NestJS, microservices on PostgreSQL, Redis and RabbitMQ, Protobuf contracts, WebSocket and gRPC.</span>
+                  </p>
+                </div>
+              </li>
+              <li class="hm-card vc-card">
+                <div class="vc-card__body">
+                  <div class="vc-card__kicker">02 · Clients</div>
+                  <p class="vc-card__text">
+                    <span lang="ru">Vue 3 и Nuxt 4 с общей дизайн-системой; Flutter для Android, Android TV, Linux, Windows и macOS.</span>
+                    <span lang="en">Vue 3 and Nuxt 4 on a shared design system; Flutter for Android, Android TV, Linux, Windows and macOS.</span>
+                  </p>
+                </div>
+              </li>
+              <li class="hm-card vc-card">
+                <div class="vc-card__body">
+                  <div class="vc-card__kicker">03 · Infra &amp; security</div>
+                  <p class="vc-card__text">
+                    <span lang="ru">Docker, Kubernetes, CI/CD, собственный деплоер и мониторинг, MikroTik/RouterOS, VPN, шифрование end-to-end.</span>
+                    <span lang="en">Docker, Kubernetes, CI/CD, an in-house deployer and monitoring, MikroTik/RouterOS, VPN, end-to-end encryption.</span>
+                  </p>
+                </div>
+              </li>
+              <li class="hm-card vc-card">
+                <div class="vc-card__body">
+                  <div class="vc-card__kicker">04 · Web3 &amp; AI</div>
+                  <p class="vc-card__text">
+                    <span lang="ru">EVM и TRON, токены ERC-20/TRC-20, выплаты и приём платежей; разработка конвейером ИИ-агентов под ревью.</span>
+                    <span lang="en">EVM and TRON, ERC-20/TRC-20 tokens, payouts and payments; development through a reviewed AI-agent pipeline.</span>
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Contact -->
+          <section id="contact" class="vc-section" aria-labelledby="contact-title">
+            <h2 id="contact-title" class="hm-section-title">
+              <span lang="ru">Контакты</span><span lang="en">Contact</span>
+            </h2>
+            <div class="hm-card">
+              <div class="hm-card-accent hm-card-accent--total"></div>
+              <div class="vc-card__body">
+                <ul class="vc-contacts">
+                  <li>
+                    <a class="vc-contact" href="https://github.com/Namikko-chad" rel="noopener">
+                      <span class="vc-contact__label">GitHub</span>
+                      <span class="vc-contact__value">Namikko-chad</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="vc-contact" href="mailto:bloodheavendevelop@gmail.com">
+                      <span class="vc-contact__label">Email</span>
+                      <span class="vc-contact__value">bloodheavendevelop@gmail.com</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="vc-contact" href="https://bloodheaven.nexus" rel="noopener">
+                      <span class="vc-contact__label">BloodHeaven</span>
+                      <span class="vc-contact__value">bloodheaven.nexus</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <footer class="hm-footer">
+          <div class="hm-footer__left">
+            <span class="hm-footer__meta">© 2026 Leonhard Schmidt</span>
+          </div>
+          <div class="hm-footer__right">
+            <a class="hm-footer__meta vc-footer-link" href="https://github.com/Namikko-chad/namikko-chad.github.io" rel="noopener">source</a>
+            <span class="hm-footer__sep">·</span>
+            <span class="hm-footer__pill hm-footer__pill--env"><span class="hm-dot hm-dot--ok" aria-hidden="true"></span>online</span>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById('lang-toggle').addEventListener('click', function () {
+        var root = document.documentElement;
+        var next = root.getAttribute('data-lang') === 'ru' ? 'en' : 'ru';
+        root.setAttribute('data-lang', next);
+        root.setAttribute('lang', next);
+        try { localStorage.setItem('lang', next); } catch (e) {}
+      });
+    </script>
+  </body>
 </html>
